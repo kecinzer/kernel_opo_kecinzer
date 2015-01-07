@@ -163,6 +163,12 @@ static int msm_cpufreq_init(struct cpufreq_policy *policy)
 	if (cpufreq_frequency_table_cpuinfo(policy, table))
 		pr_err("cpufreq: failed to get policy min/max\n");
 
+#ifdef CONFIG_ARCH_MSM8974
+        /* Predefine max/min frequencies used for device boot */
+        policy->max = 2457600;
+        policy->min = 300000;
+#endif
+
 	cur_freq = clk_get_rate(cpu_clk[policy->cpu])/1000;
 
 	if (cpufreq_frequency_table_target(policy, table, cur_freq,
